@@ -1,134 +1,144 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Konfigurator Dzwonów</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
 
-        body { background-color: #f4f4f4; display: flex; justify-content: center; padding: 20px; }
+    .konfigurator-container {
+        font-family: 'Montserrat', sans-serif;
+        max-width: 1000px;
+        margin: 0 auto;
+        text-align: center;
+        padding: 20px;
+    }
 
-        .bell-wrapper {
-            font-family: 'Montserrat', sans-serif;
-            max-width: 1000px;
-            background: #fff;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            text-align: center;
-        }
+    .konfigurator-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 30px;
+    }
 
-        .header-box h2 { color: #C7912B; margin-bottom: 5px; }
-        .header-box p { color: #666; font-size: 14px; margin-bottom: 25px; }
+    .konfigurator-header h3 {
+        color: #4A4A4A;
+        font-size: 1.2rem;
+        letter-spacing: 1px;
+        margin-top: 10px;
+    }
 
-        .bell-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-            gap: 12px;
-        }
+    .grupa-dzwieku {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 12px;
+        justify-content: center;
+    }
 
-        .bell-card {
-            background: #fff;
-            border: 2px solid #eaeaea;
-            border-radius: 10px;
-            padding: 15px 5px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
+    .bell-btn {
+        background: #ffffff;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 12px 8px;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+        color: #4A4A4A;
+        font-weight: 400;
+    }
 
-        .bell-card:hover { border-color: #C7912B; background: #fafafa; }
+    .bell-btn:hover {
+        border-color: #C7912B;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
 
-        .bell-icon { width: 30px; height: 30px; fill: #ccc; transition: fill 0.3s; }
+    .bell-btn svg {
+        width: 24px;
+        height: 24px;
+        fill: #999;
+        transition: fill 0.3s ease;
+    }
 
-        /* Aktywny dzwon */
-        .bell-card.active {
-            border-color: #C7912B;
-            background: #fffdf2;
-            box-shadow: 0 4px 12px rgba(199, 145, 43, 0.2);
-        }
+    .bell-btn.aktywny {
+        border-color: #C7912B;
+        background-color: #fffdf7;
+        font-weight: 600;
+        color: #C7912B;
+    }
 
-        .bell-card.active .bell-icon {
-            fill: #C7912B;
-            animation: ring 1s infinite;
-        }
+    .bell-btn.aktywny svg {
+        fill: #C7912B;
+        animation: ring 0.5s ease infinite; /* Zapętlenie animacji dzwonienia */
+    }
 
-        .bell-card span { font-size: 14px; font-weight: 600; color: #333; }
-        .speed-info { font-size: 10px; color: #999; }
+    @keyframes ring {
+        0% { transform: rotate(0); }
+        25% { transform: rotate(15deg); }
+        50% { transform: rotate(-15deg); }
+        75% { transform: rotate(10deg); }
+        100% { transform: rotate(0); }
+    }
+</style>
 
-        @keyframes ring {
-            0%, 100% { transform: rotate(0); }
-            25% { transform: rotate(15deg); }
-            75% { transform: rotate(-15deg); }
-        }
-    </style>
-</head>
-<body>
-
-<div class="bell-wrapper">
-    <div class="header-box">
-        <h2>🔔 KONFIGURATOR HARMONICZNY</h2>
-        <p>Kliknij wagę, aby usłyszeć dźwięk dzwonu w pętli.</p>
+<div class="konfigurator-container">
+    <div class="konfigurator-header">
+        <svg viewBox="0 0 24 24" width="50" height="50" fill="#C7912B"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+        <h3>POSŁUCHAJ ZESTAWÓW HARMONICZNYCH</h3>
     </div>
 
-    <div id="mainBellGrid" class="bell-grid"></div>
+    <div id="konfiguratorDzwiekow" class="grupa-dzwieku"></div>
 </div>
 
 <script>
-    // Lista wag
     const wagi = [20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100, 130, 150, 190, 220, 260, 290, 350, 420, 500, 580, 700, 800, 970, 1200, 1450, 1650, 1950, 2400, 2800, 3360, 4000, 4640, 5600, 6400, 7760, 9600, 11500];
+    const container = document.getElementById('konfiguratorDzwiekow');
+    const plikDzwonu = 'dzwon.mp3'; // Twoja nazwa pliku
     
-    // Bezpośredni link do czystego pliku MP3 dzwonu (z pewnego źródła)
-    const BELL_URL = "https://www.soundjay.com/buttons/sounds/button-37.mp3";
-
-    const activeSounds = {};
-    const grid = document.getElementById('mainBellGrid');
+    var dzwieki = {};
 
     wagi.forEach(waga => {
-        // Obliczanie szybkości (tonacji)
-        // Małe wagi = szybko (wysoki ton), Duże wagi = wolno (niski ton)
-        let rate = 1.0;
-        if (waga < 100) rate = 1.6;
-        else if (waga < 500) rate = 1.2;
-        else if (waga < 2000) rate = 0.8;
-        else rate = 0.5;
+        const btn = document.createElement('button');
+        btn.className = 'bell-btn';
+        
+        // Obliczanie prędkości (playbackRate) na podstawie wagi
+        // Im większa waga, tym wolniejszy (niższy) dźwięk
+        let speed = 1.0;
+        if (waga <= 100) speed = 1.6;
+        else if (waga <= 500) speed = 1.2;
+        else if (waga <= 2000) speed = 0.8;
+        else speed = 0.5;
 
-        const card = document.createElement('div');
-        card.className = 'bell-card';
-        card.innerHTML = `
-            <svg class="bell-icon" viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+        btn.onclick = () => toggleDzwiek(waga, speed, btn);
+        btn.innerHTML = `
+            <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
             <span>${waga} kg</span>
-            <div class="speed-info">Ton: ${rate.toFixed(1)}x</div>
         `;
-
-        card.onclick = function() {
-            if (activeSounds[waga]) {
-                // Wyłączanie:
-                activeSounds[waga].pause();
-                activeSounds[waga].currentTime = 0;
-                delete activeSounds[waga];
-                card.classList.remove('active');
-            } else {
-                // Włączanie:
-                const audio = new Audio(BELL_URL);
-                audio.loop = true;
-                audio.playbackRate = rate; // ZMIANA TONACJI/SZYBKOŚCI
-                
-                // Obietnica (Promise) aby ominąć blokadę przeglądarki
-                audio.play().then(() => {
-                    activeSounds[waga] = audio;
-                    card.classList.add('active');
-                }).catch(e => console.error("Błąd odtwarzania:", e));
-            }
-        };
-
-        grid.appendChild(card);
+        container.appendChild(btn);
     });
-</script>
 
-</body>
-</html>
+    function toggleDzwiek(id, szybkosc, przycisk) {
+        if (dzwieki[id]) {
+            zatrzymajDzwiek(id, przycisk);
+        } else {
+            // Tworzymy nową instancję dzwonu
+            const audio = new Audio(plikDzwonu); 
+            audio.loop = true;
+            audio.playbackRate = szybkosc; // Ustawienie szybkości dzwonienia
+            
+            audio.play().then(() => {
+                dzwieki[id] = audio;
+                przycisk.classList.add('aktywny');
+            }).catch(err => {
+                console.error("Błąd odtwarzania dzwon.mp3. Upewnij się, że plik jest w tym samym folderze co index.html.");
+            });
+        }
+    }
+
+    function zatrzymajDzwiek(id, przycisk) {
+        if (dzwieki[id]) {
+            dzwieki[id].pause();
+            dzwieki[id].currentTime = 0;
+            delete dzwieki[id];
+            przycisk.classList.remove('aktywny');
+        }
+    }
+</script>
