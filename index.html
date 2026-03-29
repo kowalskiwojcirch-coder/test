@@ -1,3 +1,559 @@
+<div class="elementor-element elementor-element-f2ea50d elementor-view-default elementor-position-top elementor-mobile-position-top elementor-widget elementor-widget-icon-box" data-id="f2ea50d" data-element_type="widget" data-widget_type="icon-box.default">
+				<div class="elementor-widget-container">
+					<div class="elementor-icon-box-wrapper">
+
+						<div class="elementor-icon-box-icon">
+				<span class="elementor-icon elementor-animation-">
+				<svg xmlns="http://www.w3.org/2000/svg" id="Capa_1" height="512" viewBox="0 0 189.524 189.524" width="512"><g><g><path clip-rule="evenodd" d="m94.762 180.048c47.102 0 85.286-38.183 85.286-85.286 0-47.102-38.183-85.286-85.286-85.286-47.102 0-85.286 38.184-85.286 85.286s38.184 85.286 85.286 85.286zm0 9.476c52.335 0 94.762-42.427 94.762-94.762 0-52.336-42.427-94.762-94.762-94.762-52.336 0-94.762 42.426-94.762 94.762 0 52.335 42.426 94.762 94.762 94.762z" fill-rule="evenodd"></path></g><g><path clip-rule="evenodd" d="m119.386 94.762-43.577-29.051v58.103zm8.804-5.519c3.939 2.626 3.939 8.413 0 11.039l-51.545 34.364c-4.408 2.939-10.313-.222-10.313-5.52v-68.727c0-5.298 5.905-8.458 10.313-5.519z" fill-rule="evenodd"></path></g></g></svg>				</span>
+			</div>
+			
+						<div class="elementor-icon-box-content">
+
+									<h3 class="elementor-icon-box-title">
+						<span>
+							POSŁUCHAJ ZESTAWÓW HARMONICZNYCH						</span>
+					</h3>
+				
+				
+			</div>
+			
+		</div>
+				</div>
+				</div>
+
+        <div class="elementor-element elementor-element-933ac5d elementor-widget elementor-widget-html" data-id="933ac5d" data-element_type="widget" data-widget_type="html.default">
+				<div class="elementor-widget-container">
+			
+
+
+    <title>Konfigurator Dźwięków</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap'); /* Import czcionki Montserrat */
+
+        .konfigurator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  
+}
+
+.konfigurator .grupaDzwieku {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px; /* Opcjonalnie, aby dodać odstęp między grupami przycisków */
+}
+
+.konfigurator .grupaZestawow {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; /* Przyciski będą przenosić się do nowej linii, gdy zabraknie miejsca */
+}
+
+
+
+        .konfigurator button {
+            margin: 5px;
+            padding: 10px;
+            border: 1px solid #C7912B; /* Kolor obramowania */
+            background-color: #f8f8f8;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            font-family: 'Montserrat', sans-serif; /* Styl czcionki */
+            color: #4A4A4A; /* Kolor tekstu */
+        }
+
+        .konfigurator button:hover {
+            color: #C7912B; /* Kolor tekstu przy najechaniu */
+        }
+
+        .konfigurator button img {
+            margin-right: 5px;
+            width: 24px;
+            height: 24px;
+        }
+
+        .konfigurator button.aktywny {
+            background-color: #e0e0e0;
+        }
+    </style>
+
+
+    <div id="konfiguratorDzwiekow" class="konfigurator">
+        <div class="grupaDzwieku">
+            <!-- Przyciski dźwięków -->
 <button id="20 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/20.mp3', this)">
                 <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="20 kg"> 20 kg
             </button>
+
+<button id="25 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/25.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="25 kg"> 25 kg
+            </button>
+            
+            <button id="30 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/30.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="30 kg"> 30 kg
+            </button>
+
+<button id="35 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/35.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="35 kg"> 35 kg
+            </button>
+            
+            <button id="40 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/40.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="40 kg"> 40 kg
+            </button>
+
+<button id="45 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/45.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="45 kg"> 45 kg
+            </button>
+            
+            <button id="50 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/50.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="50 kg"> 50 kg
+            </button>
+
+<button id="60 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/60.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="60 kg"> 60 kg
+            </button>
+            
+            <button id="70 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/70.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="70 kg"> 70 kg
+            </button>
+            
+            <button id="80 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/80.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="80 kg"> 80 kg
+            </button>
+            
+            <button id="90 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/90.mp3', this)" class="">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="90 kg"> 90 kg
+            </button>
+            
+            <button id="100 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/100.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="100 kg"> 100 kg
+            </button>
+            
+            <button id="130 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/130.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="130 kg"> 130 kg
+            </button>
+            
+            <button id="150 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/150.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="150 kg"> 150 kg
+            </button>
+            
+            <button id="190 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/190.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="190 kg"> 190 kg
+            </button>
+            
+            <button id="220 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/220.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="220 kg"> 220 kg
+            </button>
+            
+            <button id="260 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/260.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="100 kg"> 260 kg
+            </button>
+            
+            <button id="290 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/290.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="290 kg"> 290 kg
+            </button>
+            
+            <button id="350 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/350.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="350 kg"> 350 kg
+            </button>
+            
+            <button id="420 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/420.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="420 kg"> 420 kg
+            </button>
+            
+            <button id="500 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/500.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="500 kg"> 500 kg
+            </button>
+            
+            <button id="580 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/580.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="580 kg"> 580 kg
+            </button>
+            
+            <button id="700 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/700.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="700 kg"> 700 kg
+            </button>
+            
+            <button id="800 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/800.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="800 kg"> 800 kg
+            </button>
+            
+            <button id="970 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/970.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="970 kg"> 970 kg
+            </button>
+            
+            <button id="1200 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/1200.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="1200 kg"> 1200 kg
+            </button>
+            
+            <button id="1450 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/1450.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="1450 kg"> 1450 kg
+            </button>
+            
+            <button id="1650 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/1650.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="1650 kg"> 1650 kg
+            </button>
+            
+            <button id="1950 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/1950.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="1950 kg"> 1950 kg
+            </button>
+            
+            <button id="2400 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/2400.mp3', this)" class="">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="2400 kg"> 2400 kg
+            </button>
+            
+            <button id="2800 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/2800.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="2800 kg"> 2800 kg
+            </button>
+            
+            <button id="3360 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/3360.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="3360 kg"> 3360 kg
+            </button>
+            
+            <button id="4000 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/4000.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="4000 kg"> 4000 kg
+            </button>
+            
+            <button id="4640 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/4640.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="4640 kg"> 4640 kg
+            </button>
+            
+            <button id="5600 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/5600.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="5600 kg"> 5600 kg
+            </button>
+            
+            <button id="6400 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/6400.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="6400 kg"> 6400 kg
+            </button>
+            
+            <button id="7760 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/7760.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="7760 kg"> 7760 kg
+            </button>
+            
+            <button id="9600 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/9600.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="9600 kg"> 9600 kg
+            </button>
+            
+            <button id="11500 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/11500.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="11500 kg"> 11500 kg
+            </button>
+
+            <!-- Dodaj więcej przycisków dźwięków -->
+        </div>
+        <!-- Przyciski zestawów -->
+        
+        <!-- Dodaj więcej przycisków zestawów -->
+    </div>
+
+    <script>
+        var dzwieki = {};
+        var aktywnoscZestawu = {};
+
+        function toggleDzwiek(sciezka, przycisk) {
+    var ikona = przycisk.querySelector('img');
+    if (dzwieki[sciezka]) {
+        zatrzymajDzwiek(sciezka, przycisk);
+    } else {
+        // Resetuj aktywność zestawów dźwięków
+        for (var zestaw in aktywnoscZestawu) {
+            aktywnoscZestawu[zestaw] = false;
+        }
+        dzwieki[sciezka] = new Audio(sciezka);
+        dzwieki[sciezka].loop = true; // Ustawienie zapętlenia dźwięku
+        dzwieki[sciezka].play();
+        ikona.src = "http://goliat.uwb.pl/wp-content/uploads/2024/03/notification.png";
+        przycisk.classList.add('aktywny');
+    }
+}
+
+
+
+        function zatrzymajDzwiek(sciezka, przycisk) {
+            var ikona = przycisk.querySelector('img');
+            if (dzwieki[sciezka]) {
+                dzwieki[sciezka].pause();
+                dzwieki[sciezka].currentTime = 0;
+                dzwieki[sciezka] = null;
+                ikona.src = "http://goliat.uwb.pl/wp-content/uploads/2024/03/notification-2.png";
+                przycisk.classList.remove('aktywny');
+            }
+        }
+
+ 
+
+
+
+    </script>
+
+		</div>
+				</div>
+
+        <div class="elementor-widget-container">
+			
+
+
+    <title>Konfigurator Dźwięków</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap'); /* Import czcionki Montserrat */
+
+        .konfigurator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  
+}
+
+.konfigurator .grupaDzwieku {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px; /* Opcjonalnie, aby dodać odstęp między grupami przycisków */
+}
+
+.konfigurator .grupaZestawow {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; /* Przyciski będą przenosić się do nowej linii, gdy zabraknie miejsca */
+}
+
+
+
+        .konfigurator button {
+            margin: 5px;
+            padding: 10px;
+            border: 1px solid #C7912B; /* Kolor obramowania */
+            background-color: #f8f8f8;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            font-family: 'Montserrat', sans-serif; /* Styl czcionki */
+            color: #4A4A4A; /* Kolor tekstu */
+        }
+
+        .konfigurator button:hover {
+            color: #C7912B; /* Kolor tekstu przy najechaniu */
+        }
+
+        .konfigurator button img {
+            margin-right: 5px;
+            width: 24px;
+            height: 24px;
+        }
+
+        .konfigurator button.aktywny {
+            background-color: #e0e0e0;
+        }
+    </style>
+
+
+    <div id="konfiguratorDzwiekow" class="konfigurator">
+        <div class="grupaDzwieku">
+            <!-- Przyciski dźwięków -->
+<button id="20 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/20.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="20 kg"> 20 kg
+            </button>
+
+<button id="25 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/25.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="25 kg"> 25 kg
+            </button>
+            
+            <button id="30 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/30.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="30 kg"> 30 kg
+            </button>
+
+<button id="35 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/35.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="35 kg"> 35 kg
+            </button>
+            
+            <button id="40 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/40.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="40 kg"> 40 kg
+            </button>
+
+<button id="45 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/45.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="45 kg"> 45 kg
+            </button>
+            
+            <button id="50 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/50.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="50 kg"> 50 kg
+            </button>
+
+<button id="60 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/60.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="60 kg"> 60 kg
+            </button>
+            
+            <button id="70 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/70.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="70 kg"> 70 kg
+            </button>
+            
+            <button id="80 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/80.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="80 kg"> 80 kg
+            </button>
+            
+            <button id="90 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/90.mp3', this)" class="">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="90 kg"> 90 kg
+            </button>
+            
+            <button id="100 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/100.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="100 kg"> 100 kg
+            </button>
+            
+            <button id="130 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/130.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="130 kg"> 130 kg
+            </button>
+            
+            <button id="150 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/150.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="150 kg"> 150 kg
+            </button>
+            
+            <button id="190 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/190.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="190 kg"> 190 kg
+            </button>
+            
+            <button id="220 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/220.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="220 kg"> 220 kg
+            </button>
+            
+            <button id="260 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/260.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="100 kg"> 260 kg
+            </button>
+            
+            <button id="290 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/290.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="290 kg"> 290 kg
+            </button>
+            
+            <button id="350 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/350.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="350 kg"> 350 kg
+            </button>
+            
+            <button id="420 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/420.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="420 kg"> 420 kg
+            </button>
+            
+            <button id="500 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/500.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="500 kg"> 500 kg
+            </button>
+            
+            <button id="580 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/580.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="580 kg"> 580 kg
+            </button>
+            
+            <button id="700 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/700.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="700 kg"> 700 kg
+            </button>
+            
+            <button id="800 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/800.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="800 kg"> 800 kg
+            </button>
+            
+            <button id="970 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/970.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="970 kg"> 970 kg
+            </button>
+            
+            <button id="1200 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/1200.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="1200 kg"> 1200 kg
+            </button>
+            
+            <button id="1450 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/1450.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="1450 kg"> 1450 kg
+            </button>
+            
+            <button id="1650 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/1650.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="1650 kg"> 1650 kg
+            </button>
+            
+            <button id="1950 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/1950.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="1950 kg"> 1950 kg
+            </button>
+            
+            <button id="2400 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/2400.mp3', this)" class="">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="2400 kg"> 2400 kg
+            </button>
+            
+            <button id="2800 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/2800.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="2800 kg"> 2800 kg
+            </button>
+            
+            <button id="3360 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/3360.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="3360 kg"> 3360 kg
+            </button>
+            
+            <button id="4000 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/4000.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="4000 kg"> 4000 kg
+            </button>
+            
+            <button id="4640 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/4640.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="4640 kg"> 4640 kg
+            </button>
+            
+            <button id="5600 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/5600.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="5600 kg"> 5600 kg
+            </button>
+            
+            <button id="6400 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/6400.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="6400 kg"> 6400 kg
+            </button>
+            
+            <button id="7760 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/7760.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="7760 kg"> 7760 kg
+            </button>
+            
+            <button id="9600 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/9600.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="9600 kg"> 9600 kg
+            </button>
+            
+            <button id="11500 kg" onclick="toggleDzwiek('/wp-content/uploads/2024/03/11500.mp3', this)">
+                <img decoding="async" src="/wp-content/uploads/2024/03/notification-2.png" alt="11500 kg"> 11500 kg
+            </button>
+
+            <!-- Dodaj więcej przycisków dźwięków -->
+        </div>
+        <!-- Przyciski zestawów -->
+        
+        <!-- Dodaj więcej przycisków zestawów -->
+    </div>
+
+    <script>
+        var dzwieki = {};
+        var aktywnoscZestawu = {};
+
+        function toggleDzwiek(sciezka, przycisk) {
+    var ikona = przycisk.querySelector('img');
+    if (dzwieki[sciezka]) {
+        zatrzymajDzwiek(sciezka, przycisk);
+    } else {
+        // Resetuj aktywność zestawów dźwięków
+        for (var zestaw in aktywnoscZestawu) {
+            aktywnoscZestawu[zestaw] = false;
+        }
+        dzwieki[sciezka] = new Audio(sciezka);
+        dzwieki[sciezka].loop = true; // Ustawienie zapętlenia dźwięku
+        dzwieki[sciezka].play();
+        ikona.src = "http://goliat.uwb.pl/wp-content/uploads/2024/03/notification.png";
+        przycisk.classList.add('aktywny');
+    }
+}
+
+
+
+        function zatrzymajDzwiek(sciezka, przycisk) {
+            var ikona = przycisk.querySelector('img');
+            if (dzwieki[sciezka]) {
+                dzwieki[sciezka].pause();
+                dzwieki[sciezka].currentTime = 0;
+                dzwieki[sciezka] = null;
+                ikona.src = "http://goliat.uwb.pl/wp-content/uploads/2024/03/notification-2.png";
+                przycisk.classList.remove('aktywny');
+            }
+        }
+
+ 
+
+
+
+    </script>
+
+		</div>
+    
