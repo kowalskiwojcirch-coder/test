@@ -9,7 +9,7 @@
         body {
             display: none; 
             font-family: 'Montserrat', sans-serif;
-            background-color: #fcfcfc;
+            background-color: #f5f5f5;
             margin: 0;
             padding: 20px;
             user-select: none; 
@@ -20,85 +20,98 @@
             max-width: 1000px;
             margin: 0 auto;
             text-align: center;
-            padding: 30px 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .konfigurator-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
         }
 
         .konfigurator-header h3 {
             color: #4A4A4A;
-            font-weight: 600;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-size: 1.1rem;
-            margin-bottom: 40px;
+            margin-top: 10px;
         }
 
         .grupa-dzwieku {
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 12px;
             justify-content: center;
         }
 
-        /* STYL PODSTAWOWY */
+        /* STYL PRZYCISKU ZE ZDJĘCIA */
         .bell-btn {
             background: #ffffff;
             border: 1px solid #C7912B;
-            border-radius: 4px;
+            border-radius: 5px;
             width: 140px;
             height: 52px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
             transition: all 0.2s ease;
             box-sizing: border-box;
         }
 
-        .bell-btn svg {
-            width: 26px;
-            height: 26px;
-            fill: #999;
+        .bell-btn:hover {
+            background-color: #fffaf0;
         }
 
+        /* Ikona dzwonka w środku przycisku */
+        .bell-btn svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        /* Kolory warstw SVG dzwonka (Domyślne - Szare) */
+        .bell-main { fill: #999; }
+        .bell-detail { fill: #888; }
+        .bell-clapper { fill: #777; }
+        .bell-lines { display: none; stroke: #1B4E5E; stroke-width: 4; stroke-linecap: round; fill: none; }
+
+        /* Tekst wagi */
         .bell-btn span {
             font-size: 18px;
-            color: #333;
+            color: #1B4E5E; /* Ciemny niebieski/szary jak na foto */
             font-weight: 400;
         }
 
-        /* --- STYL AKTYWNY (ZGODNIE ZE ZDJĘCIEM) --- */
+        /* --- STYL AKTYWNY (ZGODNIE Z FOTO) --- */
         .bell-btn.aktywny {
             background-color: #e0e0e0 !important; /* Szare tło przycisku */
-            border: 1px solid #C7912B;
+            border-color: #C7912B;
         }
 
-        /* Specjalny kolor dzwonka po aktywacji */
-        .bell-btn.aktywny svg .bell-main {
-            fill: #FFD25A; /* Jasny żółty */
-        }
-        .bell-btn.aktywny svg .bell-detail {
-            fill: #F6A828; /* Pomarańczowy detal */
-        }
-        .bell-btn.aktywny svg .bell-clapper {
-            fill: #D48C15; /* Serce dzwonu */
-        }
-        .bell-btn.aktywny svg .bell-lines {
-            fill: #1B4E5E; /* Niebieskie kreski dzwonienia */
-            display: block !important;
-        }
+        /* Zmiana kolorów dzwonka w środku po kliknięciu */
+        .bell-btn.aktywny .bell-main { fill: #FFD25A; } /* Żółty */
+        .bell-btn.aktywny .bell-detail { fill: #F6A828; } /* Pomarańczowy */
+        .bell-btn.aktywny .bell-clapper { fill: #D48C15; } /* Ciemny pomarańcz */
+        .bell-btn.aktywny .bell-lines { display: block; } /* Pojawiają się niebieskie kreski */
 
-        /* Domyślnie ukrywamy niebieskie kreski dzwonienia */
-        .bell-lines {
-            display: none;
+        /* Wyśrodkowanie największego dzwonu na dole */
+        .waga-11500 {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
         }
-
     </style>
 </head>
 <body oncontextmenu="return false;">
 
 <script>
-    // --- BLOKADY I HASŁO ---
+    // --- BLOKADA I HASŁO ---
     document.onkeydown = function(e) {
         if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) return false;
     };
@@ -119,8 +132,10 @@
 
 <div class="konfigurator-container">
     <div class="konfigurator-header">
+        <svg viewBox="0 0 24 24" width="50" height="50" fill="#C7912B"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
         <h3>POSŁUCHAJ ZESTAWÓW HARMONICZNYCH</h3>
     </div>
+
     <div id="konfiguratorDzwiekow" class="grupa-dzwieku"></div>
 </div>
 
@@ -129,22 +144,31 @@
     const container = document.getElementById('konfiguratorDzwiekow');
     const grajaceInstance = {};
 
+    // Sortujemy od najcięższego (11500 na końcu)
     const posortowane = [...wagi].sort((a, b) => b - a);
 
     posortowane.forEach((waga, index) => {
         const btn = document.createElement('button');
         btn.className = 'bell-btn';
         
-        const n = index;
-        const pitch = 0.5 * Math.pow(2, n / 12);
+        // Specjalna klasa dla 11500kg, żeby go wyśrodkować
+        if (waga === 11500) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'waga-11500';
+            wrapper.appendChild(btn);
+            container.appendChild(wrapper);
+        } else {
+            container.prepend(btn); // Małe wagi lądują na początku
+        }
+
+        const pitch = 0.5 * Math.pow(2, index / 12);
         
-        // Budujemy dzwonek SVG z warstwami, aby móc zmieniać kolory jak na zdjęciu
         btn.innerHTML = `
             <svg viewBox="0 0 100 100">
-                <path class="bell-lines" d="M15,35 Q5,45 15,55 M85,35 Q95,45 85,55" fill="none" stroke="#1B4E5E" stroke-width="5" stroke-linecap="round"/>
-                <path class="bell-main" d="M50,15 C35,15 25,30 25,50 C25,65 20,75 15,80 L85,80 C80,75 75,65 75,50 C75,30 65,15 50,15 Z" fill="#999"/>
-                <path class="bell-detail" d="M50,15 C58,15 75,30 75,50 C75,65 80,75 85,80 L50,80 Z" fill="#888"/>
-                <circle class="bell-clapper" cx="50" cy="85" r="7" fill="#777"/>
+                <path class="bell-lines" d="M15,35 Q5,45 15,55 M85,35 Q95,45 85,55" />
+                <path class="bell-main" d="M50,15 C35,15 25,30 25,50 C25,65 20,75 15,80 L85,80 C80,75 75,65 75,50 C75,30 65,15 50,15 Z" />
+                <path class="bell-detail" d="M50,15 C58,15 75,30 75,50 C75,65 80,75 85,80 L50,80 Z" />
+                <circle class="bell-clapper" cx="50" cy="85" r="7" />
             </svg>
             <span>${waga} kg</span>
         `;
@@ -166,8 +190,6 @@
                 });
             }
         };
-
-        container.prepend(btn);
     });
 </script>
 
