@@ -47,6 +47,7 @@
     .bell-btn:hover {
         border-color: #C7912B;
         background-color: #f9f9f9;
+        transform: translateY(-2px);
     }
 
     .bell-btn svg {
@@ -60,7 +61,7 @@
         background-color: #fffdf2;
         color: #C7912B;
         font-weight: 600;
-        box-shadow: 0 0 10px rgba(199, 145, 43, 0.2);
+        box-shadow: 0 0 15px rgba(199, 145, 43, 0.2);
     }
 
     .bell-btn.aktywny svg {
@@ -73,6 +74,12 @@
         25% { transform: rotate(15deg); }
         75% { transform: rotate(-15deg); }
         100% { transform: rotate(0); }
+    }
+
+    .pitch-info {
+        font-size: 9px;
+        color: #bbb;
+        margin-top: -4px;
     }
 </style>
 
@@ -94,18 +101,22 @@
         const btn = document.createElement('button');
         btn.className = 'bell-btn';
         
-        // Obliczanie współczynnika wysokości (pitch)
-        // Im wyższa waga, tym niższa wartość (niższy ton)
-        let pitchFactor = 1.0;
-        if (waga <= 100) pitchFactor = 1.7;      
-        else if (waga <= 500) pitchFactor = 1.3; 
-        else if (waga <= 2000) pitchFactor = 0.9; 
-        else if (waga <= 5000) pitchFactor = 0.7; 
-        else pitchFactor = 0.5;                   
+        /* OBLICZANIE WYSOKOŚCI (PITCH):
+           Używamy skali logarytmicznej, aby przejście między 20kg a 11500kg było płynne.
+           20 kg -> pitch ok. 2.0 (bardzo wysoki)
+           11500 kg -> pitch ok. 0.4 (bardzo niski)
+        */
+        const minWaga = Math.log(20);
+        const maxWaga = Math.log(11500);
+        const aktualnaWaga = Math.log(waga);
+        
+        // Mapowanie logarytmiczne na zakres od 2.0 do 0.4
+        const pitch = 2.0 - ((aktualnaWaga - minWaga) / (maxWaga - minWaga)) * (2.0 - 0.4);
 
         btn.innerHTML = `
             <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
             <span>${waga} kg</span>
+            <span class="pitch-info">Ton: ${pitch.toFixed(2)}</span>
         `;
 
         btn.onclick = () => {
@@ -120,15 +131,14 @@
                 const audio = new Audio('dzwon.mp3');
                 audio.loop = true;
                 
-                // Ustawienie wysokości dźwięku (pitch)
-                audio.playbackRate = pitchFactor;
-                // Wyłączenie zachowania oryginalnej wysokości (kluczowe dla zmiany tonu)
+                // Ustawienie unikalnej wysokości dla tej wagi
                 audio.preservesPitch = false; 
+                audio.playbackRate = pitch;
                 
                 audio.play().then(() => {
                     grajaceInstance[waga] = audio;
                     btn.classList.add('aktywny');
-                }).catch(e => console.log("Czekam na kliknięcie użytkownika..."));
+                }).catch(e => console.log("Interakcja wymagana"));
             }
         };
 
