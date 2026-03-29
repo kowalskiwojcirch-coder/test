@@ -1,98 +1,188 @@
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konfigurator Harmonii</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
 
-    .konfigurator-container {
-        font-family: 'Montserrat', sans-serif;
-        max-width: 1000px;
-        margin: 0 auto;
-        text-align: center;
-        padding: 20px;
-    }
+        /* Styl okna hasła */
+        #hasloOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+        }
 
-    .konfigurator-header {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-bottom: 30px;
-    }
+        .login-box {
+            text-align: center;
+            background: #333;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
 
-    .konfigurator-header h3 {
-        color: #4A4A4A;
-        font-size: 1.2rem;
-        letter-spacing: 1px;
-        margin-top: 10px;
-    }
+        .login-box input {
+            padding: 10px;
+            width: 250px;
+            border-radius: 5px;
+            border: none;
+            margin-bottom: 15px;
+            display: block;
+        }
 
-    .grupa-dzwieku {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-        gap: 12px;
-        justify-content: center;
-    }
+        .login-box button {
+            padding: 10px 20px;
+            background: #C7912B;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+        }
 
-    .bell-btn {
-        background: #ffffff;
-        border: 2px solid #e0e0e0;
-        border-radius: 8px;
-        padding: 12px 8px;
-        cursor: pointer;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-        transition: all 0.2s ease;
-        color: #4A4A4A;
-    }
+        /* Ukrycie reszty strony przed zalogowaniem */
+        #mainContent {
+            display: none;
+        }
 
-    .bell-btn:hover {
-        border-color: #C7912B;
-        background-color: #f9f9f9;
-        transform: translateY(-2px);
-    }
+        /* Twoje style konfiguratora */
+        .konfigurator-container {
+            font-family: 'Montserrat', sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 20px;
+        }
 
-    .bell-btn svg {
-        width: 24px;
-        height: 24px;
-        fill: #999;
-    }
+        .konfigurator-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
 
-    .bell-btn.aktywny {
-        border-color: #C7912B;
-        background-color: #fffdf2;
-        color: #C7912B;
-        font-weight: 600;
-        box-shadow: 0 0 15px rgba(199, 145, 43, 0.2);
-    }
+        .konfigurator-header h3 {
+            color: #4A4A4A;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
 
-    .bell-btn.aktywny svg {
-        fill: #C7912B;
-        animation: ring-animation 0.6s ease infinite;
-    }
+        .grupa-dzwieku {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 12px;
+            justify-content: center;
+        }
 
-    @keyframes ring-animation {
-        0% { transform: rotate(0); }
-        25% { transform: rotate(15deg); }
-        75% { transform: rotate(-15deg); }
-        100% { transform: rotate(0); }
-    }
+        .bell-btn {
+            background: #ffffff;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 12px 8px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            color: #4A4A4A;
+        }
 
-    .pitch-info {
-        font-size: 9px;
-        color: #bbb;
-        margin-top: -4px;
-    }
-</style>
+        .bell-btn:hover {
+            border-color: #C7912B;
+            background-color: #f9f9f9;
+            transform: translateY(-2px);
+        }
 
-<div class="konfigurator-container">
-    <div class="konfigurator-header">
-        <svg viewBox="0 0 24 24" width="50" height="50" fill="#C7912B"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
-        <h3>POSŁUCHAJ ZESTAWÓW HARMONICZNYCH</h3>
+        .bell-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: #999;
+        }
+
+        .bell-btn.aktywny {
+            border-color: #C7912B;
+            background-color: #fffdf2;
+            color: #C7912B;
+            font-weight: 600;
+            box-shadow: 0 0 15px rgba(199, 145, 43, 0.2);
+        }
+
+        .bell-btn.aktywny svg {
+            fill: #C7912B;
+            animation: ring-animation 0.6s ease infinite;
+        }
+
+        @keyframes ring-animation {
+            0% { transform: rotate(0); }
+            25% { transform: rotate(15deg); }
+            75% { transform: rotate(-15deg); }
+            100% { transform: rotate(0); }
+        }
+
+        .pitch-info {
+            font-size: 9px;
+            color: #bbb;
+            margin-top: -4px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="hasloOverlay">
+    <div class="login-box">
+        <h3>Wpisz Hasło</h3>
+        <input type="password" id="passField" placeholder="Hasło...">
+        <button onclick="sprawdzHaslo()">Zaloguj</button>
+        <p id="errorMsg" style="color: #ff4d4d; font-size: 12px; margin-top: 10px; display: none;">Błędny kod!</p>
     </div>
+</div>
 
-    <div id="konfiguratorDzwiekow" class="grupa-dzwieku"></div>
+<div id="mainContent">
+    <div class="konfigurator-container">
+        <div class="konfigurator-header">
+            <svg viewBox="0 0 24 24" width="50" height="50" fill="#C7912B"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+            <h3>POSŁUCHAJ ZESTAWÓW HARMONICZNYCH</h3>
+        </div>
+        <div id="konfiguratorDzwiekow" class="grupa-dzwieku"></div>
+    </div>
 </div>
 
 <script>
+    // FUNKCJA HASŁA
+    function sprawdzHaslo() {
+        const wpisane = document.getElementById('passField').value;
+        const poprawne = "Betadzwonnykieczyński";
+        const error = document.getElementById('errorMsg');
+
+        if (wpisane === poprawne) {
+            document.getElementById('hasloOverlay').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+        } else {
+            error.style.display = 'block';
+            document.getElementById('passField').value = '';
+        }
+    }
+
+    // Pozwól na zatwierdzenie klawiszem Enter
+    document.getElementById('passField').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            sprawdzHaslo();
+        }
+    });
+
+    // TWOJE LOGIKA KONFIGURATORA
     const wagi = [20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100, 130, 150, 190, 220, 260, 290, 350, 420, 500, 580, 700, 800, 970, 1200, 1450, 1650, 1950, 2400, 2800, 3360, 4000, 4640, 5600, 6400, 7760, 9600, 11500];
     const container = document.getElementById('konfiguratorDzwiekow');
     const grajaceInstance = {};
@@ -101,16 +191,10 @@
         const btn = document.createElement('button');
         btn.className = 'bell-btn';
         
-        /* OBLICZANIE WYSOKOŚCI (PITCH):
-           Używamy skali logarytmicznej, aby przejście między 20kg a 11500kg było płynne.
-           20 kg -> pitch ok. 2.0 (bardzo wysoki)
-           11500 kg -> pitch ok. 0.4 (bardzo niski)
-        */
         const minWaga = Math.log(20);
         const maxWaga = Math.log(11500);
         const aktualnaWaga = Math.log(waga);
         
-        // Mapowanie logarytmiczne na zakres od 2.0 do 0.4
         const pitch = 2.0 - ((aktualnaWaga - minWaga) / (maxWaga - minWaga)) * (2.0 - 0.4);
 
         btn.innerHTML = `
@@ -121,17 +205,13 @@
 
         btn.onclick = () => {
             if (grajaceInstance[waga]) {
-                // STOP
                 grajaceInstance[waga].pause();
                 grajaceInstance[waga].currentTime = 0;
                 delete grajaceInstance[waga];
                 btn.classList.remove('aktywny');
             } else {
-                // START
                 const audio = new Audio('dzwon.mp3');
                 audio.loop = true;
-                
-                // Ustawienie unikalnej wysokości dla tej wagi
                 audio.preservesPitch = false; 
                 audio.playbackRate = pitch;
                 
@@ -145,3 +225,6 @@
         container.appendChild(btn);
     });
 </script>
+
+</body>
+</html>
