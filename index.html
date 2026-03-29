@@ -2,11 +2,10 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Harmonia Dzwonów Kieczyński</title>
+    <title>Konfigurator Harmonii</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
 
-        /* Domyślnie ukrywamy wszystko, żeby nikt nie podejrzał wag przed wpisaniem hasła */
         body {
             display: none; 
             font-family: 'Montserrat', sans-serif;
@@ -16,13 +15,11 @@
         }
 
         .konfigurator-container {
+            font-family: 'Montserrat', sans-serif;
             max-width: 1000px;
             margin: 0 auto;
             text-align: center;
             padding: 20px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         .konfigurator-header {
@@ -93,28 +90,27 @@
         }
 
         .pitch-info {
-            font-size: 9px;
-            color: #bbb;
+            font-size: 10px;
+            color: #C7912B;
             margin-top: -4px;
+            font-weight: 600;
         }
     </style>
 </head>
 <body>
 
 <script>
-    // --- SEKRETY I HASŁO ---
+    // --- AUTORYZACJA ---
     const poprawneHaslo = "Betadzwonnykieczyński";
     let autoryzowany = false;
 
     while (!autoryzowany) {
         let wpisane = prompt("Wpisz Hasło:");
-        
         if (wpisane === poprawneHaslo) {
             autoryzowany = true;
-            document.body.style.display = "block"; // Pokazuje stronę
+            document.body.style.display = "block";
         } else {
             alert("Błędny kod!");
-            // Pętla while sprawi, że prompt wyskoczy ponownie
         }
     }
 </script>
@@ -129,25 +125,31 @@
 </div>
 
 <script>
-    // --- LOGIKA DŹWIĘKU ---
+    // --- KONFIGURACJA DŹWIĘKU ---
     const wagi = [20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100, 130, 150, 190, 220, 260, 290, 350, 420, 500, 580, 700, 800, 970, 1200, 1450, 1650, 1950, 2400, 2800, 3360, 4000, 4640, 5600, 6400, 7760, 9600, 11500];
+    const nazwyNut = ["F#", "G", "G#", "A", "A#", "H", "C", "C#", "D", "D#", "E", "F"];
     const container = document.getElementById('konfiguratorDzwiekow');
     const grajaceInstance = {};
 
-    wagi.forEach(waga => {
+    // Sortujemy od największej wagi, aby przypisać jej najniższy ton
+    const posortowane = [...wagi].sort((a, b) => b - a);
+
+    posortowane.forEach((waga, index) => {
         const btn = document.createElement('button');
         btn.className = 'bell-btn';
         
-        const minWaga = Math.log(20);
-        const maxWaga = Math.log(11500);
-        const aktualnaWaga = Math.log(waga);
-        
-        const pitch = 2.0 - ((aktualnaWaga - minWaga) / (maxWaga - minWaga)) * (2.0 - 0.4);
+        // n = przesunięcie w półtonach (index 0 to 11500kg = baza)
+        // Dzielimy index przez 1.05, aby dzwony nie "uciekały" zbyt wysoko przy małych wagach
+        const n = index / 1.05; 
+        const pitch = Math.pow(2, n / 12);
+
+        // Obliczanie nazwy nuty dla wyglądu
+        const noteName = nazwyNut[Math.round(n) % 12];
 
         btn.innerHTML = `
             <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
             <span>${waga} kg</span>
-            <span class="pitch-info">Ton: ${pitch.toFixed(2)}</span>
+            <span class="pitch-info">${noteName}</span>
         `;
 
         btn.onclick = () => {
@@ -165,11 +167,12 @@
                 audio.play().then(() => {
                     grajaceInstance[waga] = audio;
                     btn.classList.add('aktywny');
-                }).catch(e => console.log("Interakcja wymagana"));
+                }).catch(e => console.log("Wymagana interakcja użytkownika"));
             }
         };
 
-        container.appendChild(btn);
+        // Dodajemy na początek, żeby małe wagi były pierwsze w widoku
+        container.prepend(btn);
     });
 </script>
 
