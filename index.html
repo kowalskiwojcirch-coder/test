@@ -2,104 +2,107 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Konfigurator Harmonii - Skala Chromatyczna</title>
+    <title>Konfigurator Harmonii Dzwonów</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
 
         body {
             display: none; 
             font-family: 'Montserrat', sans-serif;
-            background-color: #f5f5f5;
+            background-color: #fcfcfc;
             margin: 0;
             padding: 20px;
+            user-select: none; 
+            -webkit-user-select: none;
         }
 
         .konfigurator-container {
             max-width: 1000px;
             margin: 0 auto;
             text-align: center;
-            padding: 20px;
-        }
-
-        .konfigurator-header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 30px;
+            padding: 30px 20px;
         }
 
         .konfigurator-header h3 {
             color: #4A4A4A;
-            font-size: 1.2rem;
-            letter-spacing: 1px;
+            font-weight: 600;
             text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 1.1rem;
+            margin-bottom: 40px;
         }
 
         .grupa-dzwieku {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-            gap: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
             justify-content: center;
         }
 
+        /* STYL PODSTAWOWY */
         .bell-btn {
             background: #ffffff;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 12px 8px;
+            border: 1px solid #C7912B;
+            border-radius: 4px;
+            width: 140px;
+            height: 52px;
             cursor: pointer;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            gap: 10px;
             transition: all 0.2s ease;
-            color: #4A4A4A;
-        }
-
-        .bell-btn:hover {
-            border-color: #C7912B;
-            background-color: #f9f9f9;
-            transform: translateY(-2px);
+            box-sizing: border-box;
         }
 
         .bell-btn svg {
-            width: 24px;
-            height: 24px;
+            width: 26px;
+            height: 26px;
             fill: #999;
         }
 
+        .bell-btn span {
+            font-size: 18px;
+            color: #333;
+            font-weight: 400;
+        }
+
+        /* --- STYL AKTYWNY (ZGODNIE ZE ZDJĘCIEM) --- */
         .bell-btn.aktywny {
-            border-color: #C7912B;
-            background-color: #fffdf2;
-            color: #C7912B;
-            font-weight: 600;
-            box-shadow: 0 0 15px rgba(199, 145, 43, 0.2);
+            background-color: #e0e0e0 !important; /* Szare tło przycisku */
+            border: 1px solid #C7912B;
         }
 
-        .bell-btn.aktywny svg {
-            fill: #C7912B;
-            animation: ring-animation 0.6s ease infinite;
+        /* Specjalny kolor dzwonka po aktywacji */
+        .bell-btn.aktywny svg .bell-main {
+            fill: #FFD25A; /* Jasny żółty */
+        }
+        .bell-btn.aktywny svg .bell-detail {
+            fill: #F6A828; /* Pomarańczowy detal */
+        }
+        .bell-btn.aktywny svg .bell-clapper {
+            fill: #D48C15; /* Serce dzwonu */
+        }
+        .bell-btn.aktywny svg .bell-lines {
+            fill: #1B4E5E; /* Niebieskie kreski dzwonienia */
+            display: block !important;
         }
 
-        @keyframes ring-animation {
-            0% { transform: rotate(0); }
-            25% { transform: rotate(15deg); }
-            75% { transform: rotate(-15deg); }
-            100% { transform: rotate(0); }
+        /* Domyślnie ukrywamy niebieskie kreski dzwonienia */
+        .bell-lines {
+            display: none;
         }
 
-        .note-info {
-            font-size: 11px;
-            color: #C7912B;
-            margin-top: -4px;
-            font-weight: 700;
-        }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
 
 <script>
-    // --- AUTORYZACJA ---
+    // --- BLOKADY I HASŁO ---
+    document.onkeydown = function(e) {
+        if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) return false;
+    };
+
     const poprawneHaslo = "Betadzwonnykieczyński";
     let autoryzowany = false;
 
@@ -116,44 +119,34 @@
 
 <div class="konfigurator-container">
     <div class="konfigurator-header">
-        <svg viewBox="0 0 24 24" width="50" height="50" fill="#C7912B"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
-        <h3>POSŁUCHAJ ZESTAWÓW HARMONICZNYCH (PÓŁTONY #)</h3>
+        <h3>POSŁUCHAJ ZESTAWÓW HARMONICZNYCH</h3>
     </div>
-
     <div id="konfiguratorDzwiekow" class="grupa-dzwieku"></div>
 </div>
 
 <script>
-    // --- KONFIGURACJA DŹWIĘKU ---
     const wagi = [20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100, 130, 150, 190, 220, 260, 290, 350, 420, 500, 580, 700, 800, 970, 1200, 1450, 1650, 1950, 2400, 2800, 3360, 4000, 4640, 5600, 6400, 7760, 9600, 11500];
-    
-    // Pełna skala chromatyczna (12 dźwięków)
-    const skalaChromatyczna = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "H"];
-
     const container = document.getElementById('konfiguratorDzwiekow');
     const grajaceInstance = {};
 
-    // Sortujemy od najcięższego dzwonu
     const posortowane = [...wagi].sort((a, b) => b - a);
 
     posortowane.forEach((waga, index) => {
         const btn = document.createElement('button');
         btn.className = 'bell-btn';
         
-        // n = numer półtonu od bazy
-        const n = index; 
-        
-        // Zaczynamy od 0.5 (niska oktawa), aby dzwon 11500 kg brzmiał potężnie
+        const n = index;
         const pitch = 0.5 * Math.pow(2, n / 12);
         
-        // Wyliczanie nazwy nuty i oktawy
-        const nazwaNuty = skalaChromatyczna[n % 12];
-        const nrOktawy = Math.floor(n / 12) + 1;
-
+        // Budujemy dzwonek SVG z warstwami, aby móc zmieniać kolory jak na zdjęciu
         btn.innerHTML = `
-            <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+            <svg viewBox="0 0 100 100">
+                <path class="bell-lines" d="M15,35 Q5,45 15,55 M85,35 Q95,45 85,55" fill="none" stroke="#1B4E5E" stroke-width="5" stroke-linecap="round"/>
+                <path class="bell-main" d="M50,15 C35,15 25,30 25,50 C25,65 20,75 15,80 L85,80 C80,75 75,65 75,50 C75,30 65,15 50,15 Z" fill="#999"/>
+                <path class="bell-detail" d="M50,15 C58,15 75,30 75,50 C75,65 80,75 85,80 L50,80 Z" fill="#888"/>
+                <circle class="bell-clapper" cx="50" cy="85" r="7" fill="#777"/>
+            </svg>
             <span>${waga} kg</span>
-            <span class="note-info">${nazwaNuty}${nrOktawy}</span>
         `;
 
         btn.onclick = () => {
@@ -165,13 +158,12 @@
             } else {
                 const audio = new Audio('dzwon.mp3');
                 audio.loop = true;
-                audio.preservesPitch = false; 
+                audio.preservesPitch = false;
                 audio.playbackRate = pitch;
-                
                 audio.play().then(() => {
                     grajaceInstance[waga] = audio;
                     btn.classList.add('aktywny');
-                }).catch(e => console.log("Czekam na kliknięcie"));
+                });
             }
         };
 
