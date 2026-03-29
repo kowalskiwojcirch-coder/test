@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Konfigurator Harmonii</title>
+    <title>Konfigurator Harmonii - Skala Diatoniczna</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
 
@@ -15,7 +15,6 @@
         }
 
         .konfigurator-container {
-            font-family: 'Montserrat', sans-serif;
             max-width: 1000px;
             margin: 0 auto;
             text-align: center;
@@ -33,7 +32,7 @@
             color: #4A4A4A;
             font-size: 1.2rem;
             letter-spacing: 1px;
-            margin-top: 10px;
+            text-transform: uppercase;
         }
 
         .grupa-dzwieku {
@@ -89,11 +88,11 @@
             100% { transform: rotate(0); }
         }
 
-        .pitch-info {
-            font-size: 10px;
+        .note-info {
+            font-size: 11px;
             color: #C7912B;
             margin-top: -4px;
-            font-weight: 600;
+            font-weight: 700;
         }
     </style>
 </head>
@@ -118,7 +117,7 @@
 <div class="konfigurator-container">
     <div class="konfigurator-header">
         <svg viewBox="0 0 24 24" width="50" height="50" fill="#C7912B"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
-        <h3>POSŁUCHAJ ZESTAWÓW HARMONICZNYCH</h3>
+        <h3>POSŁUCHAJ ZESTAWÓW HARMONICZNYCH (C-D-E-F-G-A-H)</h3>
     </div>
 
     <div id="konfiguratorDzwiekow" class="grupa-dzwieku"></div>
@@ -127,29 +126,38 @@
 <script>
     // --- KONFIGURACJA DŹWIĘKU ---
     const wagi = [20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100, 130, 150, 190, 220, 260, 290, 350, 420, 500, 580, 700, 800, 970, 1200, 1450, 1650, 1950, 2400, 2800, 3360, 4000, 4640, 5600, 6400, 7760, 9600, 11500];
-    const nazwyNut = ["F#", "G", "G#", "A", "A#", "H", "C", "C#", "D", "D#", "E", "F"];
+    
+    // Skala diatoniczna (tylko białe klawisze)
+    const skalaDiatoniczna = ["C", "D", "E", "F", "G", "A", "H"];
+    // Odległości w półtonach dla skali durowej: 0 (C), 2 (D), 4 (E), 5 (F), 7 (G), 9 (A), 11 (H)
+    const poltonyMap = [0, 2, 4, 5, 7, 9, 11];
+
     const container = document.getElementById('konfiguratorDzwiekow');
     const grajaceInstance = {};
 
-    // Sortujemy od największej wagi, aby przypisać jej najniższy ton
+    // Sortujemy wagi od najcięższej (baza) do najlżejszej
     const posortowane = [...wagi].sort((a, b) => b - a);
 
     posortowane.forEach((waga, index) => {
         const btn = document.createElement('button');
         btn.className = 'bell-btn';
         
-        // n = przesunięcie w półtonach (index 0 to 11500kg = baza)
-        // Dzielimy index przez 1.05, aby dzwony nie "uciekały" zbyt wysoko przy małych wagach
-        const n = index / 1.05; 
-        const pitch = Math.pow(2, n / 12);
-
-        // Obliczanie nazwy nuty dla wyglądu
-        const noteName = nazwyNut[Math.round(n) % 12];
+        // Wyliczamy, którą nutą w skali jest dany dzwon
+        const nrNuty = index; 
+        const oktawa = Math.floor(nrNuty / 7);
+        const pozycjaWSkali = nrNuty % 7;
+        
+        // Obliczamy łączną liczbę półtonów od bazy
+        const sumaPoltonow = (oktawa * 12) + poltonyMap[pozycjaWSkali];
+        
+        // Obliczamy prędkość (wysokość)
+        const pitch = Math.pow(2, sumaPoltonow / 12);
+        const nazwaNuty = skalaDiatoniczna[pozycjaWSkali];
 
         btn.innerHTML = `
             <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
             <span>${waga} kg</span>
-            <span class="pitch-info">${noteName}</span>
+            <span class="note-info">${nazwaNuty}${oktawa + 1}</span>
         `;
 
         btn.onclick = () => {
@@ -167,11 +175,11 @@
                 audio.play().then(() => {
                     grajaceInstance[waga] = audio;
                     btn.classList.add('aktywny');
-                }).catch(e => console.log("Wymagana interakcja użytkownika"));
+                }).catch(e => console.log("Czekam na kliknięcie"));
             }
         };
 
-        // Dodajemy na początek, żeby małe wagi były pierwsze w widoku
+        // Dodajemy na początek (prepend), żeby najmniejsze wagi były pierwsze na liście
         container.prepend(btn);
     });
 </script>
