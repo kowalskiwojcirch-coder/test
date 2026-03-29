@@ -1,148 +1,151 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
 
-    .konfigurator-container {
+    .bell-wrapper {
         font-family: 'Montserrat', sans-serif;
-        max-width: 1000px;
-        margin: 0 auto;
+        max-width: 1100px;
+        margin: 20px auto;
+        padding: 30px;
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         text-align: center;
-        padding: 20px;
     }
 
-    .konfigurator-header {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-bottom: 30px;
-    }
-
-    .konfigurator-header h3 {
-        color: #4A4A4A;
-        font-size: 1.2rem;
-        letter-spacing: 1px;
-        margin-top: 10px;
-    }
-
-    .grupa-dzwieku {
+    .bell-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-        gap: 12px;
-        justify-content: center;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 15px;
+        margin-top: 25px;
     }
 
-    .bell-btn {
-        background: #ffffff;
-        border: 2px solid #e0e0e0;
-        border-radius: 8px;
-        padding: 12px 8px;
+    .bell-card {
+        background: #fdfdfd;
+        border: 2px solid #eee;
+        border-radius: 12px;
+        padding: 15px 10px;
         cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 8px;
+        gap: 10px;
+    }
+
+    .bell-card:hover {
+        border-color: #C7912B;
+        transform: translateY(-3px);
+        background: #fff;
+    }
+
+    /* Styl ikony dzwonka */
+    .bell-icon {
+        width: 32px;
+        height: 32px;
+        fill: #bdc3c7;
         transition: all 0.3s ease;
-        color: #4A4A4A;
-        font-weight: 400;
     }
 
-    .bell-btn:hover {
+    /* Stan aktywny (grający) */
+    .bell-card.active {
         border-color: #C7912B;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        background: #fffdf2;
+        box-shadow: 0 5px 15px rgba(199, 145, 43, 0.2);
     }
 
-    .bell-btn svg {
-        width: 24px;
-        height: 24px;
-        fill: #999;
-        transition: fill 0.3s ease;
-    }
-
-    /* Stan aktywny */
-    .bell-btn.aktywny {
-        border-color: #C7912B;
-        background-color: #fffdf7;
-        font-weight: 600;
-        color: #C7912B;
-    }
-
-    .bell-btn.aktywny svg {
+    .bell-card.active .bell-icon {
         fill: #C7912B;
-        animation: ring 0.5s ease;
+        animation: bell-ring 1s infinite;
     }
 
-    @keyframes ring {
-        0% { transform: rotate(0); }
-        25% { transform: rotate(15deg); }
-        50% { transform: rotate(-15deg); }
-        75% { transform: rotate(10deg); }
-        100% { transform: rotate(0); }
+    .bell-card span {
+        font-size: 14px;
+        color: #444;
+        font-weight: 600;
+    }
+
+    .bell-card .speed-tag {
+        font-size: 10px;
+        color: #999;
+        font-weight: 400;
+        text-transform: uppercase;
+    }
+
+    @keyframes bell-ring {
+        0%, 100% { transform: rotate(0); }
+        20% { transform: rotate(15deg); }
+        40% { transform: rotate(-12deg); }
+        60% { transform: rotate(8deg); }
+        80% { transform: rotate(-4deg); }
+    }
+
+    .header-box {
+        margin-bottom: 20px;
+    }
+
+    .header-box h2 {
+        color: #C7912B;
+        font-size: 22px;
+        margin: 10px 0;
     }
 </style>
 
-<div class="konfigurator-container">
-    <div class="konfigurator-header">
-        <svg viewBox="0 0 24 24" width="50" height="50" fill="#C7912B"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
-        <h3>POSŁUCHAJ ZESTAWÓW HARMONICZNYCH</h3>
+<div class="bell-wrapper">
+    <div class="header-box">
+        <svg viewBox="0 0 24 24" width="40" height="40" fill="#C7912B"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+        <h2>INTERAKTYWNY KONFIGURATOR DŹWIĘKU</h2>
+        <p>Kliknij w dzwon, aby usłyszeć brzmienie w pętli. Każda waga ma dostosowaną szybkość tonu.</p>
     </div>
 
-    <div id="konfiguratorDzwiekow" class="grupa-dzwieku">
-        <script>
-            const wagi = [20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100, 130, 150, 190, 220, 260, 290, 350, 420, 500, 580, 700, 800, 970, 1200, 1450, 1650, 1950, 2400, 2800, 3360, 4000, 4640, 5600, 6400, 7760, 9600, 11500];
-            
-            const container = document.getElementById('konfiguratorDzwiekow');
-            
-            wagi.forEach(waga => {
-                const btn = document.createElement('button');
-                btn.className = 'bell-btn';
-                btn.onclick = () => toggleDzwiek(`/wp-content/uploads/2024/03/${waga}.mp3`, btn);
-                btn.innerHTML = `
-                    <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
-                    <span>${waga} kg</span>
-                `;
-                container.appendChild(btn);
-            });
-        </script>
-    </div>
+    <div id="mainBellGrid" class="bell-grid"></div>
 </div>
 
 <script>
-    var dzwieki = {};
-    // Opcjonalny dźwięk krótkiego "dzwonka" przy kliknięciu (efekt UI)
-    var bellClick = new Audio('https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3');
+    // Konfiguracja wag
+    const wagi = [20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100, 130, 150, 190, 220, 260, 290, 350, 420, 500, 580, 700, 800, 970, 1200, 1450, 1650, 1950, 2400, 2800, 3360, 4000, 4640, 5600, 6400, 7760, 9600, 11500];
+    
+    // Link do ładnego dźwięku dzwonu w pętli (Bell Toll)
+    const BELL_SOUND_URL = 'https://actions.google.com/sounds/v1/ambiences/church_bell_loop.ogg';
+    
+    const activeSounds = {};
+    const grid = document.getElementById('mainBellGrid');
 
-    function toggleDzwiek(sciezka, przycisk) {
-        // Odtwórz krótki dźwięk dzwonka przy kliknięciu
-        bellClick.currentTime = 0;
-        bellClick.play();
+    wagi.forEach(waga => {
+        // Obliczanie szybkości (playbackRate)
+        // Im większa waga, tym wolniejszy (niższy) dźwięk
+        // Zakres od 1.5 (dla 20kg) do 0.5 (dla 11500kg)
+        let speed = 1.0;
+        if(waga <= 100) speed = 1.4;
+        else if(waga <= 500) speed = 1.1;
+        else if(waga <= 2000) speed = 0.8;
+        else speed = 0.6;
 
-        if (dzwieki[sciezka]) {
-            zatrzymajDzwiek(sciezka, przycisk);
-        } else {
-            // Zatrzymujemy inne dźwięki, jeśli chcesz odtwarzać tylko jeden na raz (opcjonalnie)
-            // wyciszWszystkie(); 
+        const card = document.createElement('div');
+        card.className = 'bell-card';
+        card.innerHTML = `
+            <svg class="bell-icon" viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+            <span>${waga} kg</span>
+            <div class="speed-tag">Tempo: ${speed.toFixed(1)}x</div>
+        `;
 
-            dzwieki[sciezka] = new Audio(sciezka);
-            dzwieki[sciezka].loop = true;
-            dzwieki[sciezka].play();
-            przycisk.classList.add('aktywny');
-        }
-    }
+        card.onclick = () => {
+            if (activeSounds[waga]) {
+                // Wyłączanie
+                activeSounds[waga].pause();
+                activeSounds[waga].currentTime = 0;
+                delete activeSounds[waga];
+                card.classList.remove('active');
+            } else {
+                // Włączanie w pętli
+                const audio = new Audio(BELL_SOUND_URL);
+                audio.loop = true;
+                audio.playbackRate = speed; // Tu ustawiamy szybkość!
+                audio.play();
+                activeSounds[waga] = audio;
+                card.classList.add('active');
+            }
+        };
 
-    function zatrzymajDzwiek(sciezka, przycisk) {
-        if (dzwieki[sciezka]) {
-            dzwieki[sciezka].pause();
-            dzwieki[sciezka].currentTime = 0;
-            delete dzwieki[sciezka];
-            przycisk.classList.remove('aktywny');
-        }
-    }
-
-    function wyciszWszystkie() {
-        Object.keys(dzwieki).forEach(key => {
-            dzwieki[key].pause();
-            delete dzwieki[key];
-        });
-        document.querySelectorAll('.bell-btn').forEach(b => b.classList.remove('aktywny'));
-    }
+        grid.appendChild(card);
+    });
 </script>
