@@ -1,174 +1,147 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <title>Konfigurator Harmonii Dzwonów</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
 
-        body {
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-        }
+    .konfigurator-container {
+        font-family: 'Montserrat', sans-serif;
+        max-width: 1000px;
+        margin: 0 auto;
+        text-align: center;
+        padding: 20px;
+    }
 
-        .konfigurator-container {
-            font-family: 'Montserrat', sans-serif;
-            max-width: 1100px;
-            background: #ffffff;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            text-align: center;
-        }
+    .konfigurator-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 30px;
+    }
 
-        .header h2 {
-            color: #C7912B;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+    .konfigurator-header h3 {
+        color: #4A4A4A;
+        font-size: 1.2rem;
+        letter-spacing: 1px;
+        margin-top: 10px;
+    }
 
-        .header p {
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 0.9rem;
-        }
+    .grupa-dzwieku {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 12px;
+        justify-content: center;
+    }
 
-        .grupa-dzwieku {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-            gap: 15px;
-        }
+    .bell-btn {
+        background: #ffffff;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 12px 8px;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.2s ease;
+        color: #4A4A4A;
+    }
 
-        .bell-btn {
-            background: #fff;
-            border: 2px solid #eee;
-            border-radius: 10px;
-            padding: 15px 5px;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-            position: relative;
-        }
+    .bell-btn:hover {
+        border-color: #C7912B;
+        background-color: #f9f9f9;
+        transform: translateY(-2px);
+    }
 
-        .bell-btn:hover {
-            border-color: #C7912B;
-            background-color: #fffcf5;
-            transform: translateY(-3px);
-        }
+    .bell-btn svg {
+        width: 24px;
+        height: 24px;
+        fill: #999;
+    }
 
-        .bell-btn svg {
-            width: 30px;
-            height: 30px;
-            fill: #ccc;
-            transition: fill 0.3s;
-        }
+    .bell-btn.aktywny {
+        border-color: #C7912B;
+        background-color: #fffdf2;
+        color: #C7912B;
+        font-weight: 600;
+        box-shadow: 0 0 15px rgba(199, 145, 43, 0.2);
+    }
 
-        /* Styl gdy dzwon gra (Pętla aktywna) */
-        .bell-btn.aktywny {
-            border-color: #C7912B;
-            background-color: #fff9e6;
-            box-shadow: 0 5px 15px rgba(199, 145, 43, 0.2);
-        }
+    .bell-btn.aktywny svg {
+        fill: #C7912B;
+        animation: ring-animation 0.6s ease infinite;
+    }
 
-        .bell-btn.aktywny svg {
-            fill: #C7912B;
-            animation: ring-animation 0.8s infinite ease-in-out;
-        }
+    @keyframes ring-animation {
+        0% { transform: rotate(0); }
+        25% { transform: rotate(15deg); }
+        75% { transform: rotate(-15deg); }
+        100% { transform: rotate(0); }
+    }
 
-        @keyframes ring-animation {
-            0%, 100% { transform: rotate(0); }
-            20% { transform: rotate(15deg); }
-            80% { transform: rotate(-15deg); }
-        }
-
-        .weight-label {
-            font-weight: 600;
-            font-size: 14px;
-            color: #333;
-        }
-
-        .tone-info {
-            font-size: 10px;
-            color: #999;
-            text-transform: uppercase;
-        }
-    </style>
-</head>
-<body>
+    .pitch-info {
+        font-size: 9px;
+        color: #bbb;
+        margin-top: -4px;
+    }
+</style>
 
 <div class="konfigurator-container">
-    <div class="header">
-        <h2>🔔 Konfigurator Harmonii</h2>
-        <p>Kliknij w dzwon, aby uruchomić pętlę. Ponowne kliknięcie ucisza dzwon.</p>
+    <div class="konfigurator-header">
+        <svg viewBox="0 0 24 24" width="50" height="50" fill="#C7912B"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+        <h3>POSŁUCHAJ ZESTAWÓW HARMONICZNYCH</h3>
     </div>
 
-    <div id="bellContainer" class="grupa-dzwieku"></div>
+    <div id="konfiguratorDzwiekow" class="grupa-dzwieku"></div>
 </div>
 
 <script>
-    // Pełna lista wag zgodnie z Twoim życzeniem
     const wagi = [20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100, 130, 150, 190, 220, 260, 290, 350, 420, 500, 580, 700, 800, 970, 1200, 1450, 1650, 1950, 2400, 2800, 3360, 4000, 4640, 5600, 6400, 7760, 9600, 11500];
-    
-    const container = document.getElementById('bellContainer');
-    const grajace = {}; // Obiekt do trzymania instancji Audio
+    const container = document.getElementById('konfiguratorDzwiekow');
+    const grajaceInstance = {};
 
-    // Sortujemy od najmniejszego do największego (wizualnie)
-    wagi.forEach((waga) => {
+    wagi.forEach(waga => {
         const btn = document.createElement('button');
         btn.className = 'bell-btn';
-
-        /* OBLICZENIA:
-           Dla 11500 kg (najcięższy) playbackRate = 1.0 (oryginalny dźwięk dzwon.mp3)
-           Dla 20 kg (najlżejszy) playbackRate będzie wyższy (ok. 2.0 - 2.5), co daje wysoki ton.
+        
+        /* OBLICZANIE WYSOKOŚCI (PITCH):
+           Używamy skali logarytmicznej, aby przejście między 20kg a 11500kg było płynne.
+           20 kg -> pitch ok. 2.0 (bardzo wysoki)
+           11500 kg -> pitch ok. 0.4 (bardzo niski)
         */
         const minWaga = Math.log(20);
         const maxWaga = Math.log(11500);
-        const obecnaWaga = Math.log(waga);
+        const aktualnaWaga = Math.log(waga);
         
-        // Mapowanie logarytmiczne: Im lżejszy dzwon, tym wyższy playbackRate
-        // n to liczba półtonów od bazy. Rozpiętość ok. 24 półtony (2 oktawy).
-        const n = ((maxWaga - obecnaWaga) / (maxWaga - minWaga)) * 24;
-        const rate = Math.pow(2, n / 12);
+        // Mapowanie logarytmiczne na zakres od 2.0 do 0.4
+        const pitch = 2.0 - ((aktualnaWaga - minWaga) / (maxWaga - minWaga)) * (2.0 - 0.4);
 
         btn.innerHTML = `
             <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
-            <span class="weight-label">${waga} kg</span>
-            <span class="tone-info">Ton +${Math.round(n)}</span>
+            <span>${waga} kg</span>
+            <span class="pitch-info">Ton: ${pitch.toFixed(2)}</span>
         `;
 
         btn.onclick = () => {
-            if (grajace[waga]) {
-                // Akcja: STOP i czyszczenie
-                grajace[waga].pause();
-                grajace[waga].currentTime = 0;
-                delete grajace[waga];
+            if (grajaceInstance[waga]) {
+                // STOP
+                grajaceInstance[waga].pause();
+                grajaceInstance[waga].currentTime = 0;
+                delete grajaceInstance[waga];
                 btn.classList.remove('aktywny');
             } else {
-                // Akcja: START w pętli
+                // START
                 const audio = new Audio('dzwon.mp3');
                 audio.loop = true;
-                audio.preservesPitch = false; // Kluczowe dla zmiany wysokości
-                audio.playbackRate = rate;
-
+                
+                // Ustawienie unikalnej wysokości dla tej wagi
+                audio.preservesPitch = false; 
+                audio.playbackRate = pitch;
+                
                 audio.play().then(() => {
-                    grajace[waga] = audio;
+                    grajaceInstance[waga] = audio;
                     btn.classList.add('aktywny');
-                }).catch(err => {
-                    console.log("Kliknij na stronę, aby przeglądarka pozwoliła na dźwięk.");
-                });
+                }).catch(e => console.log("Interakcja wymagana"));
             }
         };
 
         container.appendChild(btn);
     });
 </script>
-
-</body>
-</html>
