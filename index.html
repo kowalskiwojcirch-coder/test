@@ -1,162 +1,186 @@
+```html
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-<meta charset="UTF-8">
-<title>Carillon MIDI Piano</title>
+    <meta charset="UTF-8">
+    <title>Konfigurator Harmonii - Skala Chromatyczna</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
 
-<style>
-body {
-    font-family: Arial;
-    background: #f5f5f5;
-    text-align: center;
-}
+        body {
+            display: none; 
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
 
-button {
-    padding: 12px 20px;
-    margin: 20px;
-    font-size: 16px;
-    background: #C7912B;
-    border: none;
-    color: white;
-    border-radius: 8px;
-    cursor: pointer;
-}
+        .konfigurator-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 20px;
+        }
 
-.piano {
-    position: relative;
-    width: 1000px;
-    height: 200px;
-    margin: auto;
-}
+        .konfigurator-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
 
-.white {
-    width: 40px;
-    height: 200px;
-    background: white;
-    border: 1px solid #ccc;
-    float: left;
-    position: relative;
-    z-index: 1;
-}
+        .konfigurator-header h3 {
+            color: #4A4A4A;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
 
-.black {
-    width: 25px;
-    height: 120px;
-    background: black;
-    position: absolute;
-    z-index: 2;
-    margin-left: -12px;
-}
+        .grupa-dzwieku {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 12px;
+            justify-content: center;
+        }
 
-.active {
-    background: #C7912B !important;
-}
-</style>
+        .bell-btn {
+            background: #ffffff;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 12px 8px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            color: #4A4A4A;
+        }
+
+        .bell-btn:hover {
+            border-color: #C7912B;
+            background-color: #f9f9f9;
+            transform: translateY(-2px);
+        }
+
+        .bell-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: #999;
+        }
+
+        .bell-btn.aktywny {
+            border-color: #C7912B;
+            background-color: #fffdf2;
+            color: #C7912B;
+            font-weight: 600;
+            box-shadow: 0 0 15px rgba(199, 145, 43, 0.2);
+        }
+
+        .bell-btn.aktywny svg {
+            fill: #C7912B;
+            animation: ring-animation 0.6s ease infinite;
+        }
+
+        @keyframes ring-animation {
+            0% { transform: rotate(0); }
+            25% { transform: rotate(15deg); }
+            75% { transform: rotate(-15deg); }
+            100% { transform: rotate(0); }
+        }
+
+        .note-info {
+            font-size: 11px;
+            color: #C7912B;
+            margin-top: -4px;
+            font-weight: 700;
+        }
+    </style>
 </head>
-
 <body>
 
-<h2>🎹 Carillon MIDI</h2>
-<button onclick="connectMIDI()">🔌 Podłącz keyboard (MIDI)</button>
+<script>
+    // --- AUTORYZACJA ---
+    const poprawneHaslo = "Betadzwonnykieczyński";
+    let autoryzowany = false;
 
-<div id="piano" class="piano"></div>
+    while (!autoryzowany) {
+        let wpisane = prompt("Wpisz Hasło:");
+        if (wpisane === poprawneHaslo) {
+            autoryzowany = true;
+            document.body.style.display = "block";
+        } else {
+            alert("Błędny kod!");
+        }
+    }
+</script>
+
+<div class="konfigurator-container">
+    <div class="konfigurator-header">
+        <svg viewBox="0 0 24 24" width="50" height="50" fill="#C7912B"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+        <h3>POSŁUCHAJ ZESTAWÓW HARMONICZNYCH KIECZYŃSKI</h3>
+    </div>
+
+    <div id="konfiguratorDzwiekow" class="grupa-dzwieku"></div>
+</div>
 
 <script>
-const baseFile = "C'''.mp3";
-const activeNotes = {};
+    // --- KONFIGURACJA DŹWIĘKU ---
+    const wagi = [20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100, 130, 150, 190, 220, 260, 290, 350, 420, 500, 580, 700, 800, 970, 1200, 1450, 1650, 1950, 2400, 2800, 3360, 4000, 4640, 5600, 6400, 7760, 9600, 11500];
+    
+    // Pełna skala chromatyczna (12 dźwięków)
+    const skalaChromatyczna = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "H"];
 
-const piano = document.getElementById("piano");
+    const container = document.getElementById('konfiguratorDzwiekow');
+    const grajaceInstance = {};
 
-// MIDI zakres (np 48–84 = 3 oktawy)
-const startNote = 48;
-const endNote = 84;
+    // Sortujemy od najcięższego dzwonu
+    const posortowane = [...wagi].sort((a, b) => b - a);
 
-const whiteNotes = [0,2,4,5,7,9,11];
+    posortowane.forEach((waga, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'bell-btn';
+        
+        // n = numer półtonu od bazy (najcięższego dzwonu)
+        const n = index; 
+        
+        // Pitch 0.5 dla najcięższego dzwonu (index 0)
+        const pitch = 0.5 * Math.pow(2, n / 12);
+        
+        // Wyliczanie nazwy nuty i oktawy na podstawie skali 12-tonowej
+        const nazwaNuty = skalaChromatyczna[n % 12];
+        const nrOktawy = Math.floor(n / 12) + 1;
 
-let keyMap = {};
+        btn.innerHTML = `
+            <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+            <span>${waga} kg</span>
+            <span class="note-info">${nazwaNuty}${nrOktawy}</span>
+        `;
 
-function createPiano() {
-    let whiteIndex = 0;
+        btn.onclick = () => {
+            if (grajaceInstance[waga]) {
+                grajaceInstance[waga].pause();
+                grajaceInstance[waga].currentTime = 0;
+                delete grajaceInstance[waga];
+                btn.classList.remove('aktywny');
+            } else {
+                const audio = new Audio('dzwon.mp3');
+                audio.loop = true;
+                audio.preservesPitch = false; 
+                audio.playbackRate = pitch;
+                
+                audio.play().then(() => {
+                    grajaceInstance[waga] = audio;
+                    btn.classList.add('aktywny');
+                }).catch(e => console.log("Czekam na kliknięcie lub brak pliku dzwon.mp3"));
+            }
+        };
 
-    for (let i = startNote; i <= endNote; i++) {
-
-        const note = i % 12;
-
-        if (whiteNotes.includes(note)) {
-            const key = document.createElement("div");
-            key.className = "white";
-            key.dataset.note = i;
-            piano.appendChild(key);
-
-            keyMap[i] = key;
-
-            whiteIndex++;
-
-        } else {
-            const key = document.createElement("div");
-            key.className = "black";
-            key.dataset.note = i;
-
-            key.style.left = (whiteIndex * 40 - 12) + "px";
-
-            piano.appendChild(key);
-            keyMap[i] = key;
-        }
-    }
-}
-
-createPiano();
-
-// --- AUDIO ---
-function playNote(note, velocity=1) {
-    const pitch = Math.pow(2, (note - 60) / 12);
-
-    const audio = new Audio(baseFile);
-    audio.playbackRate = pitch;
-    audio.volume = velocity;
-    audio.preservesPitch = false;
-
-    audio.play();
-
-    activeNotes[note] = audio;
-
-    if (keyMap[note]) keyMap[note].classList.add("active");
-}
-
-function stopNote(note) {
-    if (activeNotes[note]) {
-        activeNotes[note].pause();
-        delete activeNotes[note];
-    }
-    if (keyMap[note]) keyMap[note].classList.remove("active");
-}
-
-// --- MIDI ---
-function connectMIDI() {
-    if (!navigator.requestMIDIAccess) {
-        alert("Brak wsparcia MIDI w przeglądarce (użyj Chrome)");
-        return;
-    }
-
-    navigator.requestMIDIAccess().then(midi => {
-        const inputs = midi.inputs.values();
-
-        for (let input of inputs) {
-            input.onmidimessage = (msg) => {
-                const [cmd, note, velocity] = msg.data;
-
-                if (cmd === 144 && velocity > 0) {
-                    playNote(note, velocity / 127);
-                } else if (cmd === 128 || velocity === 0) {
-                    stopNote(note);
-                }
-            };
-        }
-
-        alert("Keyboard podłączony 🎹");
+        // Prepend sprawia, że najmniejsze wagi (ostatnie w tablicy posortowane) pojawią się na początku siatki
+        container.prepend(btn);
     });
-}
 </script>
 
 </body>
 </html>
+```
